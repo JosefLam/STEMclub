@@ -1,0 +1,4 @@
+1110	//HiHat (closed)
+0001	//HiHat (open)
+1000	//Kick
+0010	//Snare
