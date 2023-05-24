@@ -150,33 +150,118 @@ midi = adafruit_midi.MIDI(
 )
 
 
+hiHatCNotes = ""
+hiHatONotes = ""
+kickNotes = ""
+snareNotes = ""
+crashNotes = ""
 
 
 
 
 
+text_area.text = "Custom Notes?"
+text_area1.text = "X for yes, A for no"
 
+notesComplete = False
 
-
-
-
-noteString = ""
-setNoteNum = 1
-while not (setNoteNum == 9):
-    text_area.text = "HiHatClosed"
-    text_area1.text = str(setNoteNum)+"/8"
-    if not buttonA.value:
-        noteString = (noteString)+"0"
-        setNoteNum = setNoteNum + 1
+while notesComplete == False:
+    if not buttonX.value:
         time.sleep(btnCd)
-    elif not buttonX.value:
-        noteString = (noteString)+"1"
-        setNoteNum = setNoteNum + 1
-        time.sleep(btnCd)
+        noteString = ""
+        setNoteNum = 1
+        while not (setNoteNum == 9):
+            text_area.text = "HiHatClosed"
+            text_area1.text = str(setNoteNum)+"/8"
+            if not buttonA.value:
+                noteString = (noteString)+"0"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+            elif not buttonX.value:
+                noteString = (noteString)+"1"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+            
+        hiHatCNotes = noteString
         
-notePage = open("notes.txt", "w")
-notePage.writeline(noteString)
-notePage.Close()
+        noteString = ""
+        setNoteNum = 1
+        while not (setNoteNum == 9):
+            text_area.text = "HiHatOpen"
+            text_area1.text = str(setNoteNum)+"/8"
+            if not buttonA.value:
+                noteString = (noteString)+"0"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+            elif not buttonX.value:
+                noteString = (noteString)+"1"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+                
+        hiHatONotes = noteString
+        
+        noteString = ""
+        setNoteNum = 1
+        while not (setNoteNum == 9):
+            text_area.text = "Kick"
+            text_area1.text = str(setNoteNum)+"/8"
+            if not buttonA.value:
+                noteString = (noteString)+"0"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+            elif not buttonX.value:
+                noteString = (noteString)+"1"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+                
+        kickNotes = noteString
+        
+        noteString = ""
+        setNoteNum = 1
+        while not (setNoteNum == 9):
+            text_area.text = "Snare"
+            text_area1.text = str(setNoteNum)+"/8"
+            if not buttonA.value:
+                noteString = (noteString)+"0"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+            elif not buttonX.value:
+                noteString = (noteString)+"1"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+                
+        snareNotes = noteString
+        
+        noteString = ""
+        setNoteNum = 1
+        while not (setNoteNum == 9):
+            text_area.text = "Crash"
+            text_area1.text = str(setNoteNum)+"/8"
+            if not buttonA.value:
+                noteString = (noteString)+"0"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+            elif not buttonX.value:
+                noteString = (noteString)+"1"
+                setNoteNum = setNoteNum + 1
+                time.sleep(btnCd)
+                
+        crashNotes = noteString
+        
+        notesComplete = True
+
+    elif not buttonA.value:
+        time.sleep(btnCd)
+        notePage = open("notes.txt", "r")
+        hiHatCNotes = notePage.readline().split("\t")[0]
+        hiHatONotes = notePage.readline().split("\t")[0]
+        kickNotes = notePage.readline().split("\t")[0]
+        snareNotes = notePage.readline().split("\t")[0]
+        crashNotes = notePage.readline().split("\t")[0]
+        
+        notePage.close()
+        
+        notesComplete = True
 
 
 
@@ -189,16 +274,8 @@ notePage.Close()
 
 
 
-notePage = open("notes.txt", "r") 
-    
-hiHatCNotes = notePage.readline().split("\t")[0]
-hiHatONotes = notePage.readline().split("\t")[0]
-kickNotes = notePage.readline().split("\t")[0]
-snareNotes = notePage.readline().split("\t")[0]
-crashNotes = notePage.readline().split("\t")[0]
-    
-notePage.close()
 
+text_area.text = "BPM select"
 tempo = 60
 
   
@@ -221,7 +298,7 @@ while True:
     if not buttonY.value:
         text_area1.text = "playing"
         play = True
-        delay = 1/(tempo/60)
+        delay = (1/(tempo/60))/2
         time.sleep(btnCd)
         while (play == True):
             noteNum = 0
